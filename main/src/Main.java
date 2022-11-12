@@ -1,3 +1,4 @@
+import tree.BTreePrinter;
 import tree.Node;
 
 public class Main {
@@ -9,12 +10,8 @@ public class Main {
         root.insert(30);
         root.insert(27);
         root.insert(49);
-        System.out.println(root.preOrder());
-        root.delete(25);
-        root.delete(30);
-        System.out.println(root.preOrder());
-        System.out.println(root.find(27));
-        System.out.println(root.find(30));
+        BTreePrinter treePrinter = new BTreePrinter(root, root.getChildren());
+        System.out.println(treePrinter.toString());
 
     }
 }

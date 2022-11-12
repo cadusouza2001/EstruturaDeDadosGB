@@ -15,6 +15,14 @@ public class Node {
         this.height = 0;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public Node[] getChildren() {
+        return new Node[] {this.left, this.right};
+    }
+
     public Node find(int value) {
         if (this.value == value) {
             return this;
