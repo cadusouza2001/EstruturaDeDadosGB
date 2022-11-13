@@ -8,7 +8,7 @@ public class BTreePrinter {
     private final List<BTreePrinter> children = new java.util.ArrayList<>();
 
     public BTreePrinter(Node root, Node[] children) {
-        this.name = Integer.toString(root.getValue());
+        this.name = root.getValue();
         if (children != null) {
             for (Node child : children) {
                 if (child != null) {
@@ -19,7 +19,7 @@ public class BTreePrinter {
     }
 
     public String toString() {
-        StringBuilder buffer = new StringBuilder(50);
+        StringBuilder buffer = new StringBuilder();
         print(buffer, "", "");
         return buffer.toString();
     }

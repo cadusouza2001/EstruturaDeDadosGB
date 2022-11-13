@@ -3,15 +3,31 @@ import tree.Node;
 
 public class Main {
     public static void main(String[] args) {
-        Node root = new Node(10);
-        root.insert(15);
-        root.insert(7);
-        root.insert(25);
-        root.insert(30);
-        root.insert(27);
-        root.insert(49);
-        BTreePrinter treePrinter = new BTreePrinter(root, root.getChildren());
-        System.out.println(treePrinter.toString());
+        Node intRoot = new Node(10);
+        intRoot.insert(15);
+        intRoot.insert(7);
+        intRoot.insert(25);
+        intRoot.insert(30);
+        intRoot.insert(27);
+        intRoot.insert(49);
+        BTreePrinter intTreePrinter = new BTreePrinter(intRoot, intRoot.getChildren());
+        System.out.println(intTreePrinter.toString());
+
+        Node stringRoot = new Node("Alunos");
+        stringRoot.insert("Adriele");
+        stringRoot.insert("Carlos");
+        stringRoot.insert("Clara");
+        stringRoot.insert("Professor");
+        stringRoot.insert("Marcio");
+        stringRoot.insert("Disciplina");
+        stringRoot.insert("Algoritmos");
+        stringRoot.insert("Programacao");
+        stringRoot.insert("Trabalho");
+        stringRoot.insert("Grau");
+        stringRoot.insert("B");
+
+        BTreePrinter stringTreePrinter = new BTreePrinter(stringRoot, stringRoot.getChildren());
+        System.out.println(stringTreePrinter.toString());
 
     }
 }
