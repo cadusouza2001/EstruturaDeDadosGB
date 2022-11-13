@@ -1,6 +1,7 @@
-import utils.BTreePrinter;
 import tree.Node;
+import utils.BTreePrinter;
 import utils.DateFormat;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
@@ -28,16 +29,10 @@ public class Main {
 
         while (scanner.hasNext()) {
             String[] line = scanner.nextLine().split(";");
+            //TODO criar objetos pessoa e passar para a árvore a referência
 
             if (firstLine) {
                 firstLine = false;
-//                System.out.println("Primeira linha");
-//                System.out.println("CPF: " + line[0]);
-//                System.out.println("RG: " + line[1]);
-//                System.out.println("Nome: " + line[2]);
-//                System.out.println("Data de Nascimento: " + line[3]);
-//                System.out.println("Naturalidade: " + line[4]);
-//                System.out.println("");
                 cpfRoot = new Node(Long.parseLong(line[0]));
                 nameRoot = new Node(line[2]);
                 birthRoot = new Node(DateFormat.parse(line[3]));
