@@ -1,10 +1,11 @@
-import tree.BTreePrinter;
+import utils.BTreePrinter;
 import tree.Node;
 import utils.DateFormat;
 
 public class Main {
     public static void main(String[] args) {
         //TODO resolver depois como fica quando o nome é duplicado, imagino que se use CPF como desempate
+
         Node intRoot = new Node(10);
         intRoot.insert(15);
         intRoot.insert(7);

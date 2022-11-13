@@ -32,9 +32,9 @@ public class Node {
         this.height = 0;
     }
 
-    public Node(int value) {
+    public Node(long value) {
         this.value = String.valueOf(value);
-        this.type = NodeTypes.INTEGER;
+        this.type = NodeTypes.LONG;
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
@@ -69,16 +69,16 @@ public class Node {
             if (value.compareToIgnoreCase(this.value) > 0 && this.right != null) {
                 return this.right.find(value);
             }
-        } else if (this.type == NodeTypes.INTEGER) {
-            int valueInt = Integer.parseInt(value);
-            int thisValueInt = Integer.parseInt(this.value);
-            if (thisValueInt == valueInt) {
+        } else if (this.type == NodeTypes.LONG) {
+            long valueLong = Long.parseLong(value);
+            long thisValueLong = Long.parseLong(this.value);
+            if (thisValueLong == valueLong) {
                 return this;
             }
-            if (valueInt < thisValueInt && this.left != null) {
+            if (valueLong < thisValueLong && this.left != null) {
                 return this.left.find(value);
             }
-            if (valueInt > thisValueInt && this.right != null) {
+            if (valueLong > thisValueLong && this.right != null) {
                 return this.right.find(value);
             }
         } else if (this.type == NodeTypes.DATE) {
@@ -98,7 +98,7 @@ public class Node {
         return null;
     }
 
-    public Node find(int value) throws ParseException {
+    public Node find(long value) throws ParseException {
         return find(String.valueOf(value));
     }
 
@@ -138,13 +138,13 @@ public class Node {
                     }
                 }
             }
-        } else if (this.type == NodeTypes.INTEGER) {
-            int valueInt = Integer.parseInt(value);
-            int thisValueInt = Integer.parseInt(this.value);
-            if (valueInt == thisValueInt) {
+        } else if (this.type == NodeTypes.LONG) {
+            long valueLong = Long.parseLong(value);
+            long thisValueLong = Long.parseLong(this.value);
+            if (valueLong == thisValueLong) {
                 return false;
             }
-            if (valueInt < thisValueInt) {
+            if (valueLong < thisValueLong) {
                 if (this.left == null) {
                     this.left = new Node(value, this.type);
                     this.updateBalanceFactor();
@@ -213,7 +213,7 @@ public class Node {
     }
 
     //TODO se der tempo fazer isso de uma forma menos preguiçosa
-    public boolean insert(int value) {
+    public boolean insert(long value) {
         return insert(String.valueOf(value));
     }
 
@@ -335,10 +335,10 @@ public class Node {
                     return this;
                 }
             }
-        } else if (this.type == NodeTypes.INTEGER) {
-            int valueInt = Integer.parseInt(value);
-            int thisValueInt = Integer.parseInt(this.value);
-            if (thisValueInt == valueInt) {
+        } else if (this.type == NodeTypes.LONG) {
+            long valueLong = Long.parseLong(value);
+            long thisValueLong = Long.parseLong(this.value);
+            if (thisValueLong == valueLong) {
                 if (this.left == null && this.right == null) {
                     return null;
                 } else if (this.left == null) {
@@ -353,7 +353,7 @@ public class Node {
                     this.updateHeight();
                     return this;
                 }
-            } else if (valueInt < thisValueInt) {
+            } else if (valueLong < thisValueLong) {
                 if (this.left != null) {
                     this.left = this.left.delete(value);
                     this.updateBalanceFactor();
@@ -407,7 +407,7 @@ public class Node {
         return this; //acho que não chega aqui tbm
     }
 
-    public Node delete(int value) {
+    public Node delete(long value) {
         return delete(String.valueOf(value));
     }
 

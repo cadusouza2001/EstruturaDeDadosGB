@@ -2,6 +2,6 @@ package tree;
 
 public enum NodeTypes {
     STRING,
-    INTEGER,
+    LONG,
     DATE
 }

@@ -1,4 +1,6 @@
-package tree;
+package utils;
+
+import tree.Node;
 
 import java.util.Iterator;
 import java.util.List;
