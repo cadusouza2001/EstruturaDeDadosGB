@@ -36,4 +36,9 @@ public class Pessoa {
     public String getNaturalidade() {
         return naturalidade;
     }
+
+    @Override
+    public String toString() {
+        return "Nome: " + name + "\nCPF: " + cpf + "\nRG: " + rg + "\nNascimento: " + nascimento + "\nNaturalidade: " + naturalidade + "\n";
+    }
 }

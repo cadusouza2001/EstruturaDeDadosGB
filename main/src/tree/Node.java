@@ -1,5 +1,6 @@
 package tree;
 
+import person.Pessoa;
 import utils.DateFormat;
 
 import java.util.Date;
@@ -11,29 +12,33 @@ public class Node {
     private Node right;
     private int balanceFactor;
     private int height;
+    private Pessoa pessoa;
 
-    public Node(String value) {
+    public Node(String value, Pessoa pessoa) {
         this.value = value;
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
         this.height = 0;
+        this.pessoa = pessoa;
     }
 
-    public Node(long value) {
+    public Node(long value, Pessoa pessoa) {
         this.value = String.valueOf(value);
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
         this.height = 0;
+        this.pessoa = pessoa;
     }
 
-    public Node(Date value) {
+    public Node(Date value, Pessoa pessoa) {
         this.value = DateFormat.format(value);
         this.left = null;
         this.right = null;
         this.balanceFactor = 0;
         this.height = 0;
+        this.pessoa = pessoa;
     }
 
     public String getValue() {
@@ -86,18 +91,18 @@ public class Node {
         return null;
     }
 
-    public boolean insert(String value) {
+    public boolean insert(String value, Pessoa pessoa) {
         if (this.value.compareToIgnoreCase(value) == 0) {
             return false;
         }
         if (value.compareToIgnoreCase(this.value) < 0) {
             if (this.left == null) {
-                this.left = new Node(value);
+                this.left = new Node(value, pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.left.insert(value)) {
+                if (this.left.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -105,12 +110,12 @@ public class Node {
             }
         } else {
             if (this.right == null) {
-                this.right = new Node(value);
+                this.right = new Node(value, pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.right.insert(value)) {
+                if (this.right.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -120,19 +125,19 @@ public class Node {
         return false;
     }
 
-    public boolean insert(long value) {
+    public boolean insert(long value, Pessoa pessoa) {
         long thisValueLong = Long.parseLong(this.value);
         if (value == thisValueLong) {
             return false;
         }
         if (value < thisValueLong) {
             if (this.left == null) {
-                this.left = new Node(String.valueOf(value));
+                this.left = new Node(String.valueOf(value), pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.left.insert(value)) {
+                if (this.left.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -140,12 +145,12 @@ public class Node {
             }
         } else {
             if (this.right == null) {
-                this.right = new Node(String.valueOf(value));
+                this.right = new Node(String.valueOf(value), pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.right.insert(value)) {
+                if (this.right.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -155,7 +160,7 @@ public class Node {
         return false;
     }
 
-    public boolean insert(Date value) {
+    public boolean insert(Date value, Pessoa pessoa) {
         Date thisValueDate = DateFormat.parse(this.value);
         int compare = value.compareTo(thisValueDate);
         if (compare == 0) {
@@ -163,12 +168,12 @@ public class Node {
         }
         if (compare < 0) {
             if (this.left == null) {
-                this.left = new Node(DateFormat.format(value));
+                this.left = new Node(DateFormat.format(value), pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.left.insert(value)) {
+                if (this.left.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -176,12 +181,12 @@ public class Node {
             }
         } else {
             if (this.right == null) {
-                this.right = new Node(DateFormat.format(value));
+                this.right = new Node(DateFormat.format(value), pessoa);
                 this.updateBalanceFactor();
                 this.updateHeight();
                 return true;
             } else {
-                if (this.right.insert(value)) {
+                if (this.right.insert(value, pessoa)) {
                     this.updateBalanceFactor();
                     this.updateHeight();
                     return true;
@@ -247,6 +252,7 @@ public class Node {
         this.value = newNode.value;
         this.height = newNode.height;
         this.balanceFactor = newNode.balanceFactor;
+        this.pessoa = newNode.pessoa;
 
         if (equalsLeftNode) {
             this.left = duplicateNode;
@@ -258,7 +264,7 @@ public class Node {
     }
 
     private Node duplicateNode() {
-        Node newNode = new Node(this.value);
+        Node newNode = new Node(this.value, this.pessoa);
         newNode.left = this.left;
         newNode.right = this.right;
         newNode.balanceFactor = this.balanceFactor;
@@ -398,5 +404,9 @@ public class Node {
 
     public String toString() {
         return "Node(" + this.value + ")" + " BF: " + this.balanceFactor + " H: " + this.height + " Left:[ " + (this.left == null ? "null" : this.left) + "] Right: [" + (this.right == null ? "null" : this.right) + "]";
+    }
+
+    public String personInfo(){
+        return this.pessoa.toString();
     }
 }
