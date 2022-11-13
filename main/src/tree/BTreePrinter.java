@@ -28,7 +28,7 @@ public class BTreePrinter {
         buffer.append(prefix);
         buffer.append(name);
         buffer.append("\n");
-        for(Iterator<BTreePrinter> it = children.iterator(); it.hasNext();) {
+        for (Iterator<BTreePrinter> it = children.iterator(); it.hasNext(); ) {
             BTreePrinter next = it.next();
             if (it.hasNext()) {
                 next.print(buffer, childrenPrefix + "├── ", childrenPrefix + "│   ");
