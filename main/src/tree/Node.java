@@ -91,6 +91,33 @@ public class Node {
         return null;
     }
 
+    //TODO melhorar essa lógica de busca
+    public void startsWith(String value) {
+        if (this.value.toLowerCase().startsWith(value)) {
+            System.out.println(this.pessoa);
+        }
+        if (this.left != null) {
+            this.left.startsWith(value);
+        }
+        if (this.right != null) {
+            this.right.startsWith(value);
+        }
+    }
+
+    //TODO melhorar essa lógica de busca tbm
+    public void dateBetween(Date start, Date end) {
+        Date thisValueDate = DateFormat.parse(this.value);
+        if (thisValueDate.compareTo(start) >= 0 && thisValueDate.compareTo(end) <= 0) {
+            System.out.println(this.pessoa);
+        }
+        if (this.left != null) {
+            this.left.dateBetween(start, end);
+        }
+        if (this.right != null) {
+            this.right.dateBetween(start, end);
+        }
+    }
+
     public boolean insert(String value, Pessoa pessoa) {
         if (this.value.compareToIgnoreCase(value) == 0) {
             return false;

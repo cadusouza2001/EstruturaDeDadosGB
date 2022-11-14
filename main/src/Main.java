@@ -58,14 +58,12 @@ public class Main {
         }
         scanner.close();
 
-        //TODO fazer aquelas buscas diferenciadas
-
         Scanner input = new Scanner(System.in);
         int option = -1;
         while (option != 0) {
             System.out.println("1 - Buscar por CPF");
-            System.out.println("2 - Buscar por nome");
-            System.out.println("3 - Buscar por data de nascimento");
+            System.out.println("2 - Buscar por nomes que iniciam com");
+            System.out.println("3 - Buscar por pessoas que nasceram entre duas datas");
             System.out.println("4 - Visualizar árvore de CPF");
             System.out.println("5 - Visualizar árvore de nome");
             System.out.println("6 - Visualizar árvore de data de nascimento");
@@ -82,22 +80,16 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o nome:");
-                    String name = input.next();
-                    if (nameRoot.find(name) != null) {
-                        System.out.println(nameRoot.find(name).personInfo());
-                    } else {
-                        System.out.println("Nome não encontrado");
-                    }
+                    System.out.println("Digite as iniciais do nome:");
+                    String name = input.next().toLowerCase();
+                    nameRoot.startsWith(name);
                     break;
                 case 3:
-                    System.out.println("Digite a data de nascimento:");
-                    String birth = input.next();
-                    if (birthRoot.find(DateFormat.parse(birth)) != null) {
-                        System.out.println(birthRoot.find(DateFormat.parse(birth)).personInfo());
-                    } else {
-                        System.out.println("Data de nascimento não encontrada");
-                    }
+                    System.out.println("Digite a data inicial: (dd/mm/aaaa)");
+                    String startDate = input.next();
+                    System.out.println("Digite a data final: (dd/mm/aaaa)");
+                    String endDate = input.next();
+                    birthRoot.dateBetween(DateFormat.parse(startDate), DateFormat.parse(endDate));
                     break;
                 case 4:
                     BTreePrinter cpfTreePrinter = new BTreePrinter(cpfRoot, cpfRoot.getChildren());
