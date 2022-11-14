@@ -2,6 +2,7 @@ import person.Pessoa;
 import tree.Node;
 import utils.BTreePrinter;
 import utils.DateFormat;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
@@ -32,31 +33,91 @@ public class Main {
             pessoas[count] = new Pessoa(Long.parseLong(line[0]), Long.parseLong(line[1]), line[2], DateFormat.parse(line[3]), line[4]);
             if (firstLine) {
                 firstLine = false;
-                cpfRoot = new Node(Long.parseLong(line[0]),pessoas[count]);
-                nameRoot = new Node(line[2],pessoas[count]);
-                birthRoot = new Node(DateFormat.parse(line[3]),pessoas[count]);
+                cpfRoot = new Node(Long.parseLong(line[0]), pessoas[count]);
+                nameRoot = new Node(line[2], pessoas[count]);
+                birthRoot = new Node(DateFormat.parse(line[3]), pessoas[count]);
                 count++;
                 continue;
             }
-            cpfRoot.insert(Long.parseLong(line[0]),pessoas[count]);
-            nameRoot.insert(line[2],pessoas[count]);
-            birthRoot.insert(DateFormat.parse(line[3]),pessoas[count]);
-            count++;
+            //TODO ver com o sor se proibimos registros duplicados ou criamos tratamento
+            if(cpfRoot.find(Long.parseLong(line[0])) != null) {
+                System.out.println("CPF duplicado: " + line[0]);
+            }
+            else if(nameRoot.find(line[2]) != null) {
+                System.out.println("Nome duplicado: " + line[2]);
+            }
+            else if(birthRoot.find(DateFormat.parse(line[3])) != null) {
+                System.out.println("Data de nascimento duplicada: " + line[3]);
+            }
+            else {
+                cpfRoot.insert(Long.parseLong(line[0]), pessoas[count]);
+                nameRoot.insert(line[2], pessoas[count]);
+                birthRoot.insert(DateFormat.parse(line[3]), pessoas[count]);
+                count++;
+            }
         }
         scanner.close();
 
-        BTreePrinter cpfTreePrinter = new BTreePrinter(cpfRoot, cpfRoot.getChildren());
-        System.out.println(cpfTreePrinter.toString());
-        BTreePrinter nameTreePrinter = new BTreePrinter(nameRoot, nameRoot.getChildren());
-        System.out.println(nameTreePrinter.toString());
-        BTreePrinter birthTreePrinter = new BTreePrinter(birthRoot, birthRoot.getChildren());
-        System.out.println(birthTreePrinter.toString());
-        //TODO resolver depois como fica quando o nome é duplicado, imagino que se use CPF como desempate
-        //TODO fazer menu
         //TODO fazer aquelas buscas diferenciadas
 
-        System.out.println(cpfRoot.find(12345678910L).personInfo());
-        System.out.println(nameRoot.find("Fulano de Tal").personInfo());
-        System.out.println(birthRoot.find(DateFormat.parse("01/02/1958")).personInfo());
+        Scanner input = new Scanner(System.in);
+        int option = -1;
+        while (option != 0) {
+            System.out.println("1 - Buscar por CPF");
+            System.out.println("2 - Buscar por nome");
+            System.out.println("3 - Buscar por data de nascimento");
+            System.out.println("4 - Visualizar árvore de CPF");
+            System.out.println("5 - Visualizar árvore de nome");
+            System.out.println("6 - Visualizar árvore de data de nascimento");
+            System.out.println("0 - Sair");
+            option = input.nextInt();
+            switch (option) {
+                case 1:
+                    System.out.println("Digite o CPF:");
+                    long cpf = input.nextLong();
+                    if (cpfRoot.find(cpf) != null) {
+                        System.out.println(cpfRoot.find(cpf).personInfo());
+                    } else {
+                        System.out.println("CPF não encontrado");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Digite o nome:");
+                    String name = input.next();
+                    if (nameRoot.find(name) != null) {
+                        System.out.println(nameRoot.find(name).personInfo());
+                    } else {
+                        System.out.println("Nome não encontrado");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Digite a data de nascimento:");
+                    String birth = input.next();
+                    if (birthRoot.find(DateFormat.parse(birth)) != null) {
+                        System.out.println(birthRoot.find(DateFormat.parse(birth)).personInfo());
+                    } else {
+                        System.out.println("Data de nascimento não encontrada");
+                    }
+                    break;
+                case 4:
+                    BTreePrinter cpfTreePrinter = new BTreePrinter(cpfRoot, cpfRoot.getChildren());
+                    System.out.println(cpfTreePrinter.toString());
+                    break;
+                case 5:
+                    BTreePrinter nameTreePrinter = new BTreePrinter(nameRoot, nameRoot.getChildren());
+                    System.out.println(nameTreePrinter.toString());
+                    break;
+                case 6:
+                    BTreePrinter birthTreePrinter = new BTreePrinter(birthRoot, birthRoot.getChildren());
+                    System.out.println(birthTreePrinter.toString());
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    break;
+            }
+        }
     }
 }

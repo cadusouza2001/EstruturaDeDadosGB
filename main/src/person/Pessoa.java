@@ -1,5 +1,7 @@
 package person;
 
+import utils.DateFormat;
+
 import java.util.Date;
 
 public class Pessoa {
@@ -39,6 +41,6 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome: " + name + "\nCPF: " + cpf + "\nRG: " + rg + "\nNascimento: " + nascimento + "\nNaturalidade: " + naturalidade + "\n";
+        return "Nome: " + name + "\nCPF: " + cpf + "\nRG: " + rg + "\nNascimento: " + DateFormat.format(nascimento) + "\nNaturalidade: " + naturalidade + "\n";
     }
 }
