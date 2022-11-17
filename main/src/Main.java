@@ -6,6 +6,7 @@ import utils.DateFormat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -26,16 +27,17 @@ public class Main {
         Node nameRoot = null;
         Node birthRoot = null;
 
-        Pessoa pessoas[] = new Pessoa[1000];
+        ArrayList<Pessoa> pessoas = new ArrayList<>();
         int count = 0;
         while (scanner.hasNext()) {
             String[] line = scanner.nextLine().split(";");
-            pessoas[count] = new Pessoa(Long.parseLong(line[0]), Long.parseLong(line[1]), line[2], DateFormat.parse(line[3]), line[4]);
+
+            pessoas.add(new Pessoa(Long.parseLong(line[0]), Long.parseLong(line[1]), line[2], DateFormat.parse(line[3]), line[4]));
             if (firstLine) {
                 firstLine = false;
-                cpfRoot = new Node(Long.parseLong(line[0]), pessoas[count]);
-                nameRoot = new Node(line[2], pessoas[count]);
-                birthRoot = new Node(DateFormat.parse(line[3]), pessoas[count]);
+                cpfRoot = new Node(Long.parseLong(line[0]), pessoas.get(count));
+                nameRoot = new Node(line[2], pessoas.get(count));
+                birthRoot = new Node(DateFormat.parse(line[3]), pessoas.get(count));
                 count++;
                 continue;
             }
@@ -50,9 +52,9 @@ public class Main {
                 System.out.println("Data de nascimento duplicada: " + line[3]);
             }
             else {
-                cpfRoot.insert(Long.parseLong(line[0]), pessoas[count]);
-                nameRoot.insert(line[2], pessoas[count]);
-                birthRoot.insert(DateFormat.parse(line[3]), pessoas[count]);
+                cpfRoot.insert(Long.parseLong(line[0]), pessoas.get(count));
+                nameRoot.insert(line[2], pessoas.get(count));
+                birthRoot.insert(DateFormat.parse(line[3]), pessoas.get(count));
                 count++;
             }
         }
