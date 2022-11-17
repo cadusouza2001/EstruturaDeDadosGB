@@ -84,14 +84,30 @@ public class Main {
                 case 2:
                     System.out.println("Digite as iniciais do nome:");
                     String name = input.next().toLowerCase();
-                    nameRoot.startsWith(name);
+                    ArrayList<Node> nodesThatStartWith = new ArrayList<>();
+                    nodesThatStartWith = nameRoot.startsWith(name, nodesThatStartWith);
+                    if (nodesThatStartWith.size() > 0) {
+                        for (Node node : nodesThatStartWith) {
+                            System.out.println(node.personInfo());
+                        }
+                    } else {
+                        System.out.println("Nenhum nome encontrado");
+                    }
                     break;
                 case 3:
                     System.out.println("Digite a data inicial: (dd/mm/aaaa)");
                     String startDate = input.next();
                     System.out.println("Digite a data final: (dd/mm/aaaa)");
                     String endDate = input.next();
-                    birthRoot.dateBetween(DateFormat.parse(startDate), DateFormat.parse(endDate));
+                    ArrayList<Node> nodesBetweenDates = new ArrayList<>();
+                    nodesBetweenDates = birthRoot.dateBetween(DateFormat.parse(startDate), DateFormat.parse(endDate), nodesBetweenDates);
+                    if (nodesBetweenDates.size() > 0) {
+                        for (Node node : nodesBetweenDates) {
+                            System.out.println(node.personInfo());
+                        }
+                    } else {
+                        System.out.println("Nenhuma pessoa encontrada");
+                    }
                     break;
                 case 4:
                     BTreePrinter cpfTreePrinter = new BTreePrinter(cpfRoot, cpfRoot.getChildren());

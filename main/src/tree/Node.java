@@ -3,6 +3,7 @@ package tree;
 import person.Pessoa;
 import utils.DateFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Node {
@@ -91,31 +92,31 @@ public class Node {
         return null;
     }
 
-    //TODO melhorar essa lógica de busca
-    public void startsWith(String value) {
+    public ArrayList<Node> startsWith(String value, ArrayList<Node> nodes) {
         if (this.value.toLowerCase().startsWith(value)) {
-            System.out.println(this.pessoa);
+            nodes.add(this);
         }
         if (this.left != null) {
-            this.left.startsWith(value);
+            this.left.startsWith(value, nodes);
         }
         if (this.right != null) {
-            this.right.startsWith(value);
+            this.right.startsWith(value, nodes);
         }
+        return nodes;
     }
 
-    //TODO melhorar essa lógica de busca tbm
-    public void dateBetween(Date start, Date end) {
+    public ArrayList<Node> dateBetween(Date start, Date end, ArrayList<Node> nodes) {
         Date thisValueDate = DateFormat.parse(this.value);
         if (thisValueDate.compareTo(start) >= 0 && thisValueDate.compareTo(end) <= 0) {
-            System.out.println(this.pessoa);
+            nodes.add(this);
         }
         if (this.left != null) {
-            this.left.dateBetween(start, end);
+            this.left.dateBetween(start, end, nodes);
         }
         if (this.right != null) {
-            this.right.dateBetween(start, end);
+            this.right.dateBetween(start, end, nodes);
         }
+        return nodes;
     }
 
     public boolean insert(String value, Pessoa pessoa) {
