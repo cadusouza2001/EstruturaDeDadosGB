@@ -9,6 +9,7 @@ import java.util.Date;
 public class Node {
 
     private String value;
+    private long secondaryKey;
     private Node left;
     private Node right;
     private int balanceFactor;
@@ -22,6 +23,7 @@ public class Node {
         this.balanceFactor = 0;
         this.height = 0;
         this.pessoa = pessoa;
+        this.secondaryKey = pessoa.getCpf();
     }
 
     public Node(long value, Pessoa pessoa) {
@@ -31,6 +33,7 @@ public class Node {
         this.balanceFactor = 0;
         this.height = 0;
         this.pessoa = pessoa;
+        this.secondaryKey = pessoa.getCpf();
     }
 
     public Node(Date value, Pessoa pessoa) {
@@ -40,6 +43,7 @@ public class Node {
         this.balanceFactor = 0;
         this.height = 0;
         this.pessoa = pessoa;
+        this.secondaryKey = pessoa.getCpf();
     }
 
     public String getValue() {
@@ -48,19 +52,6 @@ public class Node {
 
     public Node[] getChildren() {
         return new Node[]{this.left, this.right};
-    }
-
-    public Node find(String value) {
-        if (this.value.compareToIgnoreCase(value) == 0) {
-            return this;
-        }
-        if (value.compareToIgnoreCase(this.value) < 0 && this.left != null) {
-            return this.left.find(value);
-        }
-        if (value.compareToIgnoreCase(this.value) > 0 && this.right != null) {
-            return this.right.find(value);
-        }
-        return null;
     }
 
     public Node find(long value) {
@@ -72,21 +63,6 @@ public class Node {
             return this.left.find(value);
         }
         if (value > thisValueLong && this.right != null) {
-            return this.right.find(value);
-        }
-        return null;
-    }
-
-    public Node find(Date value) {
-        Date thisValueDate = DateFormat.parse(this.value);
-        int compare = value.compareTo(thisValueDate);
-        if (compare == 0) {
-            return this;
-        }
-        if (compare < 0 && this.left != null) {
-            return this.left.find(value);
-        }
-        if (compare > 0 && this.right != null) {
             return this.right.find(value);
         }
         return null;
@@ -121,6 +97,36 @@ public class Node {
 
     public boolean insert(String value, Pessoa pessoa) {
         if (this.value.compareToIgnoreCase(value) == 0) {
+            long cpfInsert = pessoa.getCpf();
+            if (this.secondaryKey == cpfInsert) {
+                return false;
+            } else if (cpfInsert < this.secondaryKey) {
+                if (this.left == null) {
+                    this.left = new Node(value, pessoa);
+                    this.updateBalanceFactor();
+                    this.updateHeight();
+                    return true;
+                } else {
+                    if (this.left.insert(value, pessoa)) {
+                        this.updateBalanceFactor();
+                        this.updateHeight();
+                        return true;
+                    }
+                }
+            } else {
+                if (this.right == null) {
+                    this.right = new Node(value, pessoa);
+                    this.updateBalanceFactor();
+                    this.updateHeight();
+                    return true;
+                } else {
+                    if (this.right.insert(value, pessoa)) {
+                        this.updateBalanceFactor();
+                        this.updateHeight();
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         if (value.compareToIgnoreCase(this.value) < 0) {
@@ -192,6 +198,36 @@ public class Node {
         Date thisValueDate = DateFormat.parse(this.value);
         int compare = value.compareTo(thisValueDate);
         if (compare == 0) {
+            long cpfInsert = pessoa.getCpf();
+            if (this.secondaryKey == cpfInsert) {
+                return false;
+            } else if (cpfInsert < this.secondaryKey) {
+                if (this.left == null) {
+                    this.left = new Node(value, pessoa);
+                    this.updateBalanceFactor();
+                    this.updateHeight();
+                    return true;
+                } else {
+                    if (this.left.insert(value, pessoa)) {
+                        this.updateBalanceFactor();
+                        this.updateHeight();
+                        return true;
+                    }
+                }
+            } else {
+                if (this.right == null) {
+                    this.right = new Node(value, pessoa);
+                    this.updateBalanceFactor();
+                    this.updateHeight();
+                    return true;
+                } else {
+                    if (this.right.insert(value, pessoa)) {
+                        this.updateBalanceFactor();
+                        this.updateHeight();
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         if (compare < 0) {
@@ -281,6 +317,7 @@ public class Node {
         this.height = newNode.height;
         this.balanceFactor = newNode.balanceFactor;
         this.pessoa = newNode.pessoa;
+        this.secondaryKey = newNode.secondaryKey;
 
         if (equalsLeftNode) {
             this.left = duplicateNode;
@@ -306,135 +343,11 @@ public class Node {
         this.height = Math.max(leftHeight, rightHeight) + 1;
     }
 
-    public Node delete(String value) {
-        if (this.value.compareToIgnoreCase(value) == 0) {
-            if (this.left == null && this.right == null) {
-                return null;
-            } else if (this.left == null) {
-                return this.right;
-            } else if (this.right == null) {
-                return this.left;
-            } else {
-                String maxNode = this.left.maxValue();
-                this.value = maxNode;
-                this.left = this.left.delete(maxNode);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else if (value.compareToIgnoreCase(this.value) < 0) {
-            if (this.left != null) {
-                this.left = this.left.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else {
-            if (this.right != null) {
-                this.right = this.right.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        }
-        return this;
-    }
-
-    public Node delete(long value) {
-        long thisValueLong = Long.parseLong(this.value);
-        if (thisValueLong == value) {
-            if (this.left == null && this.right == null) {
-                return null;
-            } else if (this.left == null) {
-                return this.right;
-            } else if (this.right == null) {
-                return this.left;
-            } else {
-                String maxNode = this.left.maxValue();
-                this.value = maxNode;
-                this.left = this.left.delete(Long.parseLong(maxNode));
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else if (value < thisValueLong) {
-            if (this.left != null) {
-                this.left = this.left.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else {
-            if (this.right != null) {
-                this.right = this.right.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        }
-        return this;
-    }
-
-    public Node delete(Date value) {
-        Date thisValueDate = DateFormat.parse(this.value);
-        if (value.compareTo(thisValueDate) == 0) {
-            if (this.left == null && this.right == null) {
-                return null;
-            } else if (this.left == null) {
-                return this.right;
-            } else if (this.right == null) {
-                return this.left;
-            } else {
-                String maxNode = this.left.maxValue();
-                this.value = maxNode;
-                this.left = this.left.delete(DateFormat.parse(maxNode));
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else if (value.compareTo(thisValueDate) < 0) {
-            if (this.left != null) {
-                this.left = this.left.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        } else {
-            if (this.right != null) {
-                this.right = this.right.delete(value);
-                this.updateBalanceFactor();
-                this.updateHeight();
-                return this;
-            }
-        }
-        return this;
-    }
-
-    private String maxValue() {
-        if (this.right == null) {
-            return this.value;
-        } else {
-            return this.right.maxValue();
-        }
-    }
-
-    public String preOrder() {
-        String result = "";
-        result += this.value + " ";
-        if (this.left != null) {
-            result += this.left.preOrder();
-        }
-        if (this.right != null) {
-            result += this.right.preOrder();
-        }
-        return result;
-    }
-
     public String toString() {
         return "Node(" + this.value + ")" + " BF: " + this.balanceFactor + " H: " + this.height + " Left:[ " + (this.left == null ? "null" : this.left) + "] Right: [" + (this.right == null ? "null" : this.right) + "]";
     }
 
-    public String personInfo(){
+    public String personInfo() {
         return this.pessoa.toString();
     }
 }
