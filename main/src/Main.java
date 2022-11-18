@@ -41,15 +41,8 @@ public class Main {
                 count++;
                 continue;
             }
-            //TODO ver com o sor se proibimos registros duplicados ou criamos tratamento
             if(cpfRoot.find(Long.parseLong(line[0])) != null) {
-                System.out.println("CPF duplicado: " + line[0]);
-            }
-            else if(nameRoot.find(line[2]) != null) {
-                System.out.println("Nome duplicado: " + line[2]);
-            }
-            else if(birthRoot.find(DateFormat.parse(line[3])) != null) {
-                System.out.println("Data de nascimento duplicada: " + line[3]);
+                System.out.println("Erro! CPF já inserido: " + line[0]);
             }
             else {
                 cpfRoot.insert(Long.parseLong(line[0]), pessoas.get(count));
